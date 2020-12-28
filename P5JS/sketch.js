@@ -22,12 +22,12 @@ function receiveOsc(address, value) {
 	}
 	if (address == '/oscControl/slider1') {
 		x = value[0]*100;
-	//	console.log(x);
+	console.log(x);
 	}
 
 	if (address == '/oscControl/slider2') {
 		y = value[0]*100;
-	//	console.log(y);
+	console.log(y);
 	}
 
 

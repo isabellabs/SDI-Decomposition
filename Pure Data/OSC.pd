@@ -1,4 +1,4 @@
-#N canvas 9 454 783 846 12;
+#N canvas 218 23 783 846 12;
 #X obj 309 69 unpackOSC;
 #X obj 309 15 udpreceive 9962;
 #X floatatom 309 306 5 0 0 0 - - -;
@@ -31,12 +31,14 @@
 #X obj 89 171 udpsend 127.0.0.1 9961;
 #X msg 89 46 connect localhost 9961;
 #X msg 123 77 disconnect;
-#X obj 89 234 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 89 234 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 89 7 loadbang;
 #X obj 544 69 print 1 -;
 #X obj 544 119 print 2 -;
 #X obj 545 189 print 3 -;
+#X obj 312 238 + 0.4999;
+#X obj 310 273 int;
 #X connect 0 0 3 0;
 #X connect 0 0 28 0;
 #X connect 1 0 0 0;
@@ -44,7 +46,7 @@
 #X connect 1 0 27 0;
 #X connect 2 0 13 0;
 #X connect 3 0 29 0;
-#X connect 3 0 2 0;
+#X connect 3 0 30 0;
 #X connect 4 0 14 0;
 #X connect 6 0 4 0;
 #X connect 7 0 6 0;
@@ -72,3 +74,5 @@
 #X connect 23 0 22 0;
 #X connect 24 0 22 0;
 #X connect 26 0 23 0;
+#X connect 30 0 31 0;
+#X connect 31 0 2 0;
