@@ -1,17 +1,26 @@
 let timer = 4
 var plastic;
+// timer = 54 equivale a 10s
+// timer = 6 equivale a 1s
 
+//timer paperbag = 1.8
+//timer fruta = 1.92
+//timer can = 800
+// timer plastic = 1800
+// timer styrofoam = infinite
 
 function preload() {
   plastic = loadImage('assets/plastic.jpeg');
-
+  paperbag = loadImage('assets/paperbag-2.jpg');
+  can = loadImage('assets/can-3.jpg');
+  fruit = loadImage('assets/fruit-3.jpg');
+  styrofoam = loadImage('assets/styrofoam-2.jpg');
 }
 
 function setup() {
   createCanvas(800, 600);
   image(plastic, 0, 0);
-  plastic.resize(0.5,0.5);
-  frameRate(10)
+  //frameRate(10)
 }
 
 function draw() { 
@@ -34,7 +43,7 @@ function draw() {
     if (timer <= 0) {
       textSize(20);
       background(200);
-      text("Did you know that plastic takes 800years to decompose?", width/2, height*0.7);
+      text("Did you know that plastic takes 800 years to decompose?", width/2, height*0.7);
     }
 }
 
