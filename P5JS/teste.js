@@ -1,13 +1,12 @@
 let timer = 4
 var plastic;
-// timer = 54 equivale a 10s
-// timer = 6 equivale a 1s
+// timer = 60 equivale a 1s
 
-//timer paperbag = 1.8
-//timer fruta = 1.92
-//timer can = 800
-// timer plastic = 1800
-// timer styrofoam = infinite
+//timer paperbag = 60
+//timer fruta = 60
+//timer can = 8000
+//timer plastic = 18000
+//timer styrofoam = infinite
 
 function preload() {
   plastic = loadImage('assets/plastic.jpeg');
@@ -25,7 +24,7 @@ function setup() {
 
 function draw() { 
     if (timer > 0) {
-      timer = timer-0.1;
+      timer = timer-1;
       
       var x1 = random(width);
       var y1 = random(height);
