@@ -54,7 +54,8 @@ function draw() {
     
   if (timer <= 0) {
     textSize(20);
-    background(200);
+    background(0);
+    Fill(255);
     text("Did you know that plastic takes 800 years to decompose?", 400, height/2);
   }
 }
