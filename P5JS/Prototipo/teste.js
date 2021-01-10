@@ -12,7 +12,7 @@ let alignSlider, cohesionSlider, separationSlider;
 
 function preload() {
 
-  plastic = loadImage('assets/plastic-2.jpeg');
+  plastic = loadImage('assets/plastic-2.jpg');
   plasticEnd = loadImage('assets/plastic.png');
   paperbag = loadImage('assets/paperbag-2.jpg');
   paperbagEnd = loadImage('assets/paperbag.png');
