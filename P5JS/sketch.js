@@ -40,7 +40,8 @@ function setup() {
 
 // Vídeo loop pré escolha
   vid = createVideo("assets/video.mp4");
-  vid.position(0, 0); 
+  vid.position(0, 0);
+  vid.size(1920, 1080);
   vid.loop()
 
   //Dados de baralhamento
@@ -271,8 +272,8 @@ function receiveOsc(address, value) {
         settingAtivo = 0;
 
         // Imagens a Usar
-        image(natureza[Math.floor(Math.random() * natureza.length)], 0, 0);
-        imagemFim = naturezaEnd;
+//        image(natureza[Math.floor(Math.random() * natureza.length)], 0, 0);
+//        imagemFim = naturezaEnd;
 
         // Titúlo e tempo de execução
         textoTitulo = "NATUREZA";
