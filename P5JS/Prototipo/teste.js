@@ -11,8 +11,7 @@ let alignSlider, cohesionSlider, separationSlider;
 //timer styrofoam = 40000000
 
 function preload() {
-
-  plastic = loadImage('assets/plastic-2.jpg');
+  plastic = loadImage('assets/plastic-2.jpeg');
   plasticEnd = loadImage('assets/plastic.png');
   paperbag = loadImage('assets/paperbag-2.jpg');
   paperbagEnd = loadImage('assets/paperbag.png');
