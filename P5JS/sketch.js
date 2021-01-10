@@ -1,12 +1,12 @@
 let timer = 600;
-let plastic;
+let plastic, paperbag;
 const flock = [];
 let alignSlider, cohesionSlider, separationSlider;
 
 
 function preload() {
   plastic = loadImage('assets/plastic-3.jpg');
-  plastic = loadImage('assets/paperbag-2.jpg');
+  paperbag = loadImage('assets/paperbag-2.jpg');
 }
 
 function setup() {
