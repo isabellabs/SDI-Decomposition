@@ -1,4 +1,4 @@
-let timer = 60;
+let timer = 600;
 let plastic;
 const flock = [];
 let alignSlider, cohesionSlider, separationSlider;
