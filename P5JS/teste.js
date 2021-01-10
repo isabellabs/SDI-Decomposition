@@ -41,7 +41,7 @@ function setup() {
   alignSlider = createSlider(0, 2, 1, 0.1);
   cohesionSlider = createSlider(0, 2, 1, 0.1);
   separationSlider = createSlider(0, 2, 1, 0.1);
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 100; i++) {
     flock.push(new Boid());
   }
 }
@@ -76,7 +76,7 @@ function draw() {
     textSize(20);
     background(0);
     Fill(255);
-    text("Did you know that fruit takes x years to decompose?", 400, height/2);
+    text("APPLE – 2 MONTHS TO DECOMPOSE", 400, height/2);
   }
 
   //paperbag - case 2
@@ -107,7 +107,7 @@ function draw() {
     textSize(20);
     background(0);
     Fill(255);
-    text("Did you know that paperbag takes x years to decompose?", 400, height/2);
+    text("PAPERBAG – 8 WEEKS TO DECOMPOSE", 400, height/2);
   }
 
   //can - case 3
@@ -138,7 +138,7 @@ function draw() {
     textSize(20);
     background(0);
     Fill(255);
-    text("Did you know that paperbag takes x years to decompose?", 400, height/2);
+    text("ALUMNIUM CAN – 200 YEARS TO DECOMPOSE", 400, height/2);
   }
 
   //plastic - case 4
@@ -169,7 +169,7 @@ function draw() {
     textSize(20);
     background(0);
     Fill(255);
-    text("Did you know that paperbag takes x years to decompose?", 400, height/2);
+    text("PLASTIC BOTTLE – 450 YEARS TO DECOMPOSE ", 400, height/2);
   }
 
   //styrofoam - case 5
@@ -202,5 +202,10 @@ function draw() {
     Fill(255);
     text("Did you know that styrofoam takes 1000000 years to decompose?", 400, height/2);
   }
+  fill(0, 0, 0, 255);
+  rect(0, 900, 1920, 100);
+  fill(255, 255, 255, 255);
+  textSize(20);
+  text("STYROFOAM – 1 MILLION YEARS TO DECOMPOSE ", 200, 950);
 }
 
