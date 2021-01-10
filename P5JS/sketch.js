@@ -1,35 +1,66 @@
-var x=0, y=0;
+let timer = 600;
+let plastic;
+const flock = [];
+let alignSlider, cohesionSlider, separationSlider;
 
-function setup() {
-	createCanvas(500, 500);
-	setupOsc(9961, 3334);
+
+function preload() {
+  plastic = loadImage('assets/plastic-3.jpg');
+  plastic = loadImage('assets/paperbag-2.jpg');
 }
 
-function draw() {
-	background(0, 0, 255);
-	fill(0, 255, 0);
-	ellipse(x, y, 100, 100);
-	fill(0);
-	text("via OSC", x-25, y);
+function setup() {
+  createCanvas(1920, 1080);
+  setupOsc(9961, 3334);
+  image(plastic, 0, 0);
+
+  alignSlider = createSlider(0, 2, 1, 0.1);
+  cohesionSlider = createSlider(0, 2, 1, 0.1);
+  separationSlider = createSlider(0, 2, 1, 0.1);
+
+  for (let i = 0; i < 150; i++) {
+    flock.push(new Boid());
+  }
+}
+
+function draw() { 
+    if (timer > 0) {
+      timer = timer-1;
+      print(timer);
+      var x1 = random(width);
+      var y1 = random(height);
+
+      var x2 = round(x1 + random(-5, 5));
+      var y2 = round(y1 + random(-5, 5));
+
+      var w = 150;
+      var h = 50;
+
+      set(x2, y2, get(x1, y1, w, h));
+      
+      for (let boid of flock) {
+        boid.edges();
+        boid.flock(flock);
+        boid.update();
+        boid.show();
+      }
+    }
+    
+    if (timer <= 0) {
+      textSize(20);
+      background(0);
+      fill(255);
+      text("Did you know that plastic takes 800 years to decompose?", width/2, height/2);
+    }
 }
 
 function receiveOsc(address, value) {
-	console.log("received OSC: " + address + ", " + value);
+	console.log("OSC recebido: " + address + ", " + value);
 	
-	if (address == '/oscControl') {
-		x = value[0];
-		y = value[1];
+	if (address == '/rfidCard') {
+		item = value[0];
+		console.log('Item escolhido', item);
 	}
-	if (address == '/oscControl/slider1') {
-		x = value[0]*100;
-	console.log(x);
-	}
-
-	if (address == '/oscControl/slider2') {
-		y = value[0]*100;
-	console.log(y);
-	}
-
 
 }
 
