@@ -11,11 +11,17 @@ let alignSlider, cohesionSlider, separationSlider;
 //timer styrofoam = 40000000
 
 function preload() {
-  plastic = loadImage('assets/plastic.jpeg');
+
+  plastic = loadImage('assets/plastic-2.jpeg');
+  plasticEnd = loadImage('assets/plastic.png');
   paperbag = loadImage('assets/paperbag-2.jpg');
-  can = loadImage('assets/can-3.jpg');
-  fruit = loadImage('assets/fruit-3.jpg');
+  paperbagEnd = loadImage('assets/paperbag.png');
+  can = loadImage('assets/can-1.jpg');
+  canEnd = loadImage('assets/can.png');
+  fruit = loadImage('assets/fruit-1.jpg');
+  fruitEnd = loadImage('assets/apple.png');
   styrofoam = loadImage('assets/styrofoam-2.jpg');
+  styrofoamEnd = loadImage('assets/styrofoam.png');
 }
 
 function setup() {
@@ -70,13 +76,17 @@ function draw() {
       boid.update();
       boid.show();
     }
+
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("APPLE - 2 MONTHS TO DECOMPOSE", width/2, 40);
   }
     
   if (timer <= 0) {
-    textSize(20);
-    background(0);
-    Fill(255);
-    text("APPLE – 2 MONTHS TO DECOMPOSE", 400, height/2);
+    image(fruitEnd, 0, 0);
   }
 
   //paperbag - case 2
@@ -101,13 +111,17 @@ function draw() {
       boid.update();
       boid.show();
     }
+
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("PAPERBAG - 8 WEEKS TO DECOMPOSE", width/2, 40);
   }
     
   if (timer <= 0) {
-    textSize(20);
-    background(0);
-    Fill(255);
-    text("PAPERBAG – 8 WEEKS TO DECOMPOSE", 400, height/2);
+    image(paperbagEnd, 0, 0);
   }
 
   //can - case 3
@@ -132,13 +146,17 @@ function draw() {
       boid.update();
       boid.show();
     }
+
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("ALUMINIUM CAN - 200 YEARS TO DECOMPOSE", width/2, 40);
   }
     
   if (timer <= 0) {
-    textSize(20);
-    background(0);
-    Fill(255);
-    text("ALUMNIUM CAN – 200 YEARS TO DECOMPOSE", 400, height/2);
+    image(canEnd, 0, 0);
   }
 
   //plastic - case 4
@@ -163,18 +181,22 @@ function draw() {
       boid.update();
       boid.show();
     }
+
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("PLASTIC BOTTLE - 450 YEARS TO DECOMPOSE", width/2, 40);
   }
     
   if (timer <= 0) {
-    textSize(20);
-    background(0);
-    Fill(255);
-    text("PLASTIC BOTTLE – 450 YEARS TO DECOMPOSE ", 400, height/2);
+    image(plasticEnd, 0, 0);
   }
 
   //styrofoam - case 5
   timer = 40000000
-  if (timer > 0) {
+  if (timer >= 39999000) {
     timer = timer-1;
     print(timer);
     var x1 = random(width);
@@ -194,18 +216,76 @@ function draw() {
       boid.update();
       boid.show();
     }
-  }
-    
-  if (timer <= 0) {
+
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
     textSize(20);
-    background(0);
-    Fill(255);
-    text("Did you know that styrofoam takes 1000000 years to decompose?", 400, height/2);
+    text("STYROFOAM - 1 MILLION YEARS TO DECOMPOSE", width/2, 40);
+
   }
-  fill(0, 0, 0, 255);
-  rect(0, 900, 1920, 100);
-  fill(255, 255, 255, 255);
-  textSize(20);
-  text("STYROFOAM – 1 MILLION YEARS TO DECOMPOSE ", 200, 950);
+
+  if (timer > 0 && timer <= 39999000) {
+    timer = timer-1;
+    print(timer);
+    var x1 = random(width);
+    var y1 = random(height);
+
+    var x2 = round(x1 + random(-1, 1));
+    var y2 = round(y1 + random(-1, 1));
+
+    var w = 150;
+    var h = 50;
+
+    set(x2, y2, get(x1, y1, w, h));
+    
+    for (let boid of flock) {
+      boid.edges();
+      boid.flock(flock);
+      boid.update();
+      boid.show();
+    }
+    
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("1 MILLION YEARS AGO, HOMO ERECTUS WAS THE CURRENT SPECIES OF THE HOMO GENUS TO ROAM THE EARTH, AND WERE OUR EARLIEST ANCESTOR CAPABLE TO USE FIRE", width/2, 40);
+  }
+
+  if (timer > 0 && timer <= 39998000) {
+    timer = timer-1;
+    print(timer);
+    var x1 = random(width);
+    var y1 = random(height);
+
+    var x2 = round(x1 + random(-1, 1));
+    var y2 = round(y1 + random(-1, 1));
+
+    var w = 150;
+    var h = 50;
+
+    set(x2, y2, get(x1, y1, w, h));
+    
+    for (let boid of flock) {
+      boid.edges();
+      boid.flock(flock);
+      boid.update();
+      boid.show();
+    }
+    
+    fill(0, 0, 0, 255);
+    rect(0, 0, 1920, 56);
+    fill(255, 255, 255, 255);
+    textAlign(CENTER);
+    textSize(20);
+    text("1 MILLION YEARS AGO, THE HOMO SAPIENS WOULD NOT APPEAR UNTIL AROUND 650.000 YEARS LATER", width/2, 40);
+  }
+
+  if (timer <= 0) {
+    image(styrofoamEnd, 0, 0);
+  }
 }
 
