@@ -34,11 +34,23 @@ MFRC522 rfid(SS_PIN, RST_PIN);                  // Cria instância de MFRC522
 // RF TAGS
 
 // WIFI e OSC
-char ssid[] = "T5g";                            // your network SSID (name)
-char pass[] = "aaaaaaaa";                       // your network password
+// char ssid[] = "T5g";                         // your network SSID (name)
+// char pass[] = "aaaaaaaa";                    // your network password
+
+
+char ssid[] = "ACA-EDU";                        // your network SSID (name)
+char pass[] = "ACA2017!";                       // your network password
+
+
+IPAddress staticIP(192, 168, 8, 11);
+IPAddress gateway(192, 168, 8, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress dns1(1, 1, 1, 1);
+IPAddress dns2(8, 8, 8, 8);
+
 
 WiFiUDP Udp;                                    // A UDP instance to let us send and receive packets over UDP
-const IPAddress outIp(192, 168, 102, 151);       // remote IP of your computer
+const IPAddress outIp(192, 168, 8, 10);         // remote IP of your computer
 const unsigned int outPort = 9962;              // remote port to receive OSC
 const unsigned int localPort = 8888;            // local port to listen for OSC packets (actually not used for sending)
 // WIFI e OSC
@@ -66,6 +78,11 @@ void setup() {
   }
   Serial.println("");
 
+  if (WiFi.config(staticIP, gateway, subnet, dns1, dns2) == false) {
+    Serial.println("Configuration failed.");
+  }
+  Serial.println("");
+  
   Serial.print(millis()); Serial.print(" - ");
   Serial.println("WiFi connected");
   Serial.print(millis()); Serial.print(" - ");
@@ -145,7 +162,7 @@ void loop() {
         Serial.println(cartaoEncontrado);
 
 
-        OSCMessage msg("/oscControl/slider1");
+        OSCMessage msg("/rfidCard");
 
 //        randNumber = random(0, 5);
 //
