@@ -26,7 +26,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1920, 1080);
+  createCanvas(1900, 1060);
   setupOsc(9961, 3334);
 
 
