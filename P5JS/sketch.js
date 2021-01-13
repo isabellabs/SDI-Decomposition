@@ -111,7 +111,7 @@ function draw() {
 
     case 2:
       inicioT = millis();
-      duracaoT = 2000;
+      duracaoT = 10000;
 
       estado++;
       break;
@@ -170,6 +170,7 @@ function receiveOsc(address, value) {
     inicioT = millis();
     contadorTrivia = 100;
 
+
     switch (item) {
       case 1:
         console.log("Um");
@@ -179,7 +180,7 @@ function receiveOsc(address, value) {
         settingAtivo = 1;
 
         // Duração da imagem
-        duracaoT = 2000;
+        duracaoT = 1000;
 
         // Imagens a Usar
         image(fruit[Math.floor(Math.random() * fruit.length)], 0, 0);
@@ -209,7 +210,7 @@ function receiveOsc(address, value) {
         settingAtivo = 2;
 
         // Duração da imagem
-        duracaoT = 3000;
+        duracaoT = 1500;
 
         // Imagens a Usar
         image(paperbag[Math.floor(Math.random() * paperbag.length)], 0, 0);
@@ -239,7 +240,7 @@ function receiveOsc(address, value) {
         settingAtivo = 3;
 
         // Duração da imagem
-        duracaoT = 4000;
+        duracaoT = 133000;
 
         // Imagens a Usar
         image(can[Math.floor(Math.random() * can.length)], 0, 0);
@@ -269,7 +270,7 @@ function receiveOsc(address, value) {
         settingAtivo = 4;
 
         // Duração da imagem
-        duracaoT = 5000;
+        duracaoT = 300000;
 
         // Imagens a Usar
         image(plastic[Math.floor(Math.random() * plastic.length)], 0, 0);
@@ -299,7 +300,7 @@ function receiveOsc(address, value) {
         settingAtivo = 5;
 
         // Duração da imagem
-        duracaoT = 60000;
+        duracaoT = 9999999999999999999;
 
         // Imagens a Usar
         image(styrofoam[Math.floor(Math.random() * styrofoam.length)], 0, 0);
