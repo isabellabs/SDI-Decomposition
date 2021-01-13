@@ -1,69 +1,63 @@
-let timer;
-let plastic, paperbag;
 const flock = [];
-let alignSlider, cohesionSlider, separationSlider;
 let skMaxForce = 1;
 let skMaxSpeed = 2;
+let isConnected;
+let socket;
+let estado = 0;
+let contador = 0;
+let contaFrases;
+let inicioT, duracaoT;
+
+let contadorTrivia;
+
 
 function preload() {
-  natureza = [loadImage('assets/plastic-1.jpg'),loadImage('assets/plastic-2.jpg')];
+  natureza = [loadImage('assets/plastic-1.jpg'), loadImage('assets/plastic-2.jpg')];
   naturezaEnd = loadImage('assets/plastic.png');
 
-  plastic = [loadImage('assets/plastic-1.jpg'), loadImage('assets/plastic-2.jpg')] ;
+  plastic = [loadImage('assets/plastic-1.jpg'), loadImage('assets/plastic-2.jpg')];
   plasticEnd = loadImage('assets/plastic.png');
 
-  paperbag = [loadImage('assets/paperbag-1.jpg'),loadImage('assets/paperbag-2.jpg')];
+  paperbag = [loadImage('assets/paperbag-1.jpg'), loadImage('assets/paperbag-2.jpg')];
   paperbagEnd = loadImage('assets/paperbag.png');
 
-  can = [loadImage('assets/can-1.jpg'),loadImage('assets/can-2.jpg')];
+  can = [loadImage('assets/can-1.jpg'), loadImage('assets/can-2.jpg')];
   canEnd = loadImage('assets/can.png');
 
   fruit = [loadImage('assets/fruit-1.jpg'), loadImage('assets/fruit-2.jpg')];
   fruitEnd = loadImage('assets/apple.png');
 
-  styrofoam = [loadImage('assets/styrofoam-1.jpg'),loadImage('assets/styrofoam-2.jpg')];
+  styrofoam = [loadImage('assets/styrofoam-1.jpg'), loadImage('assets/styrofoam-2.jpg')];
   styrofoamEnd = loadImage('assets/styrofoam.png');
 }
 
 function setup() {
   createCanvas(1900, 1060);
-  setupOsc(9961, 3334);
+  setupOsc(9961, 9962);
+  frameRate(10);
 
 
   // Settings de arranque do sistema
-  console.log("Zero");
-  settingAtivo = 0;
+  console.log("Dez");
+  estado = 10;
 
-  // Imagens a Usar
-//  image(natureza[Math.floor(Math.random() * natureza.length)], 0, 0);
-//  imagemFim = naturezaEnd;
 
-// Vídeo loop pré escolha
   vid = createVideo("assets/video.mp4");
   vid.position(0, 0);
   vid.size(1920, 1080);
-  vid.loop()
-
-  //Dados de baralhamento
-  incremento = 5;
-  largura = 150;
-  altura = 50;
-
-  // Titúlo e tempo de execução
-  textoTitulo = "NATUREZA";
-  timer = 1000000;
-
-  // Parâmetros para boid.js  
-  alignSlider = 1;
-  cohesionSlider = 1;
-  separationSlider = 1;
+  //vid.loop();
+  // vid.hide();
+  // vid.pause();
 
 
   for (let i = 0; i < 150; i++) {
     flock.push(new Boid());
   }
-  contador = 1;
-  contaFrases = 0;
+
+  if (isConnected) {
+    sendOsc('/rfidCard', 0);
+  }
+
 
 }
 
@@ -75,12 +69,9 @@ function mousePressed() {
 }
 
 function draw() {
+  switch (estado) {
+    case 1:
 
-  if (settingAtivo > 0) {
-    
-    if (timer > 0) {
-      timer = timer - 1;
-      //print(timer);
       var x1 = random(width);
       var y1 = random(height);
 
@@ -106,38 +97,89 @@ function draw() {
       textSize(20);
 
       contador++;
-      if (settingAtivo == 5){
-        //print(contaFrases);
-        text(frasesTitulo[contaFrases], width / 2, 40);       
-        
-        if (contador % 1000 == 0 && contaFrases < totalFrases-1){
-          contaFrases++
-          contador = 1;
-        }
-      } else{
-        text(textoTitulo, width / 2, 40);        
-      }
-    }
 
-    if (timer <= 0) {
+
+      text(frasesTitulo[contaFrases], width / 2, 40);
+
+      if (contaFrases <= (frasesTitulo.length - 2)) {
+        if (contador % contadorTrivia == 0) {
+          contaFrases++;
+        }
+      }
+      temporizador();
+      break;
+
+    case 2:
+      inicioT = millis();
+      duracaoT = 2000;
+
+      estado++;
+      break;
+
+    case 3:
       image(imagemFim, 0, 0);
-    }
+
+      temporizador();
+
+      break;
+
+    case 4:
+      if (isConnected) {
+        sendOsc('/rfidCard', 0);
+      }
+      break;
+
+    case 9:
+      vid.show();
+      vid.loop();
+      estado = 0;
+
+      break;
+
+    case 10:
+      if (isConnected) {
+        sendOsc('/rfidCard', 0);
+      }
+      break;
+    
+    default:
+
+
+      break;
+  }
+}
+
+function temporizador() {
+  if (millis() > inicioT + duracaoT) {
+    console.log('Temporizador acabou');
+    estado++;
   }
 }
 
 function receiveOsc(address, value) {
-  console.log("OSC recebido: " + address + ", " + value);
+  console.log("OSC recebido(endereço): " + address);
+  console.log("OSC recebido(valor): " + value);
 
   if (address == '/rfidCard') {
     item = value[0];
     console.log('Item escolhido', item);
+
+    estado = 1;
+    contaFrases = 0;
+    contador = 1;
+    inicioT = millis();
+    contadorTrivia = 100;
 
     switch (item) {
       case 1:
         console.log("Um");
         vid.pause();
         vid.hide();
+
         settingAtivo = 1;
+
+        // Duração da imagem
+        duracaoT = 2000;
 
         // Imagens a Usar
         image(fruit[Math.floor(Math.random() * fruit.length)], 0, 0);
@@ -148,9 +190,8 @@ function receiveOsc(address, value) {
         largura = 200;
         altura = 100;
 
-        // Titúlo e tempo de execução
-        textoTitulo = "APPLE - 2 MONTHS TO DECOMPOSE";
-        timer = 60;
+        // Títulos
+        frasesTitulo = ["APPLE - 2 MONTHS TO DECOMPOSE"];
 
         // Parâmetros para boid.js
         alignSlider = 1;
@@ -164,7 +205,11 @@ function receiveOsc(address, value) {
         console.log("Dois");
         vid.pause();
         vid.hide();
+
         settingAtivo = 2;
+
+        // Duração da imagem
+        duracaoT = 3000;
 
         // Imagens a Usar
         image(paperbag[Math.floor(Math.random() * paperbag.length)], 0, 0);
@@ -173,11 +218,10 @@ function receiveOsc(address, value) {
         //Dados de baralhamento
         incremento = 160;
         largura = 210;
-        altura = 110;        
-        
+        altura = 110;
+
         // Titúlo e tempo de execução
-        textoTitulo = "PAPERBAG - 8 WEEKS TO DECOMPOSE";
-        timer = 80;
+        frasesTitulo = ["PAPERBAG - 8 WEEKS TO DECOMPOSE"];
 
         // Parâmetros para boid.js    
         alignSlider = 1;
@@ -191,7 +235,11 @@ function receiveOsc(address, value) {
         console.log("Três");
         vid.pause();
         vid.hide();
+
         settingAtivo = 3;
+
+        // Duração da imagem
+        duracaoT = 4000;
 
         // Imagens a Usar
         image(can[Math.floor(Math.random() * can.length)], 0, 0);
@@ -200,11 +248,10 @@ function receiveOsc(address, value) {
         //Dados de baralhamento
         incremento = 10;
         largura = 150;
-        altura = 50;        
+        altura = 50;
 
         // Titúlo e tempo de execução
-        textoTitulo = "ALUMINIUM CAN - 200 YEARS TO DECOMPOSE";
-        timer = 8000;
+        frasesTitulo = ["ALUMINIUM CAN - 200 YEARS TO DECOMPOSE"];
 
         // Parâmetros para boid.js       
         alignSlider = 1;
@@ -218,21 +265,23 @@ function receiveOsc(address, value) {
         console.log("Quatro");
         vid.pause();
         vid.hide();
+
         settingAtivo = 4;
 
-        // Imagens a Usar
+        // Duração da imagem
+        duracaoT = 5000;
 
+        // Imagens a Usar
         image(plastic[Math.floor(Math.random() * plastic.length)], 0, 0);
         imagemFim = plasticEnd;
 
         // Titúlo e tempo de execução
-        textoTitulo = "PLASTIC BOTTLE - 450 YEARS TO DECOMPOSE";
-        timer = 18000;
+        frasesTitulo = ["PLASTIC BOTTLE - 450 YEARS TO DECOMPOSE"];
 
         //Dados de baralhamento
         incremento = 5;
         largura = 100;
-        altura = 25;        
+        altura = 25;
 
         // Parâmetros para boid.js       
         alignSlider = 1;
@@ -246,7 +295,11 @@ function receiveOsc(address, value) {
         console.log("Cinco");
         vid.pause();
         vid.hide();
+
         settingAtivo = 5;
+
+        // Duração da imagem
+        duracaoT = 60000;
 
         // Imagens a Usar
         image(styrofoam[Math.floor(Math.random() * styrofoam.length)], 0, 0);
@@ -255,13 +308,10 @@ function receiveOsc(address, value) {
         //Dados de baralhamento
         incremento = 1;
         largura = 100;
-        altura = 25;        
+        altura = 25;
 
         // Titúlo e tempo de execução
         frasesTitulo = ["STYROFOAM - 1 MILLION YEARS TO DECOMPOSE", "1 MILLION YEARS AGO, HOMO ERECTUS WAS THE CURRENT SPECIES OF THE HOMO GENUS TO ROAM THE EARTH, AND WERE OUR EARLIEST ANCESTOR CAPABLE TO USE FIRE", "1 MILLION YEARS AGO, THE HOMO SAPIENS WOULD NOT APPEAR UNTIL AROUND 650.000 YEARS LATER"];
-        totalFrases = 3
-    
-        timer = 40000000;
 
         // Parâmetros para boid.js       
         alignSlider = 1;
@@ -274,25 +324,7 @@ function receiveOsc(address, value) {
       default:
         console.log("Qualquer outro");
 
-        vid.show();
-        vid.play();
-
-        settingAtivo = 0;
-
-        // Imagens a Usar
-//        image(natureza[Math.floor(Math.random() * natureza.length)], 0, 0);
-//        imagemFim = naturezaEnd;
-
-        // Titúlo e tempo de execução
-        textoTitulo = "NATUREZA";
-        timer = 1000000;
-
-        // Parâmetros para boid.js  
-        alignSlider = 1;
-        cohesionSlider = 1;
-        separationSlider = 1;
-        skMaxForce = 1;
-        skMaxSpeed = 2;
+        estado = 9;
 
         break;
     }
@@ -307,13 +339,18 @@ function sendOsc(address, value) {
 }
 
 function setupOsc(oscPortIn, oscPortOut) {
-  var socket = io.connect('http://127.0.0.1:8081', { port: 8081, rememberTransport: false });
+  socket = io.connect('http://127.0.0.1:8081', { port: 8081, rememberTransport: false });
   socket.on('connect', function () {
     socket.emit('config', {
       server: { port: oscPortIn, host: '127.0.0.1' },
       client: { port: oscPortOut, host: '127.0.0.1' }
     });
   });
+
+  socket.on('connect', function () {
+    isConnected = true;
+  });
+
   socket.on('message', function (msg) {
     if (msg[0] == '#bundle') {
       for (var i = 2; i < msg.length; i++) {
@@ -323,4 +360,6 @@ function setupOsc(oscPortIn, oscPortOut) {
       receiveOsc(msg[0], msg.splice(1));
     }
   });
+
+
 }
