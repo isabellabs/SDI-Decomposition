@@ -1,6 +1,6 @@
 const flock = [];
 let skMaxForce = 1;
-let skMaxSpeed = 2;
+let skMaxSpeed = 4;
 let isConnected;
 let socket;
 let estado = 0;
@@ -111,7 +111,7 @@ function draw() {
 
     case 2:
       inicioT = millis();
-      duracaoT = 10000;
+      duracaoT = 10000; //tim,e for the last screen
 
       estado++;
       break;
@@ -168,11 +168,11 @@ function receiveOsc(address, value) {
     contaFrases = 0;
     contador = 1;
     inicioT = millis();
-    contadorTrivia = 100;
+    contadorTrivia = 600; //trivia sub titles. not miliseconds
 
 
     switch (item) {
-      case 1:
+      case 1: //apple
         console.log("Um");
         vid.pause();
         vid.hide();
@@ -180,14 +180,14 @@ function receiveOsc(address, value) {
         settingAtivo = 1;
 
         // Duração da imagem
-        duracaoT = 1000;
+        duracaoT = 5000; //miliseconds
 
         // Imagens a Usar
         image(fruit[Math.floor(Math.random() * fruit.length)], 0, 0);
         imagemFim = fruitEnd;
 
         //Dados de baralhamento
-        incremento = 150;
+        incremento = 160;
         largura = 200;
         altura = 100;
 
@@ -195,14 +195,14 @@ function receiveOsc(address, value) {
         frasesTitulo = ["APPLE - 2 MONTHS TO DECOMPOSE"];
 
         // Parâmetros para boid.js
-        alignSlider = 1;
+        alignSlider = 1; //0 to 2
         cohesionSlider = 1;
         separationSlider = 1;
         skMaxForce = 1;
-        skMaxSpeed = 2;
+        skMaxSpeed = 4;
 
         break;
-      case 2:
+      case 2: //paper
         console.log("Dois");
         vid.pause();
         vid.hide();
@@ -210,14 +210,14 @@ function receiveOsc(address, value) {
         settingAtivo = 2;
 
         // Duração da imagem
-        duracaoT = 1500;
+        duracaoT = 5500;
 
         // Imagens a Usar
         image(paperbag[Math.floor(Math.random() * paperbag.length)], 0, 0);
         imagemFim = paperbagEnd;
 
         //Dados de baralhamento
-        incremento = 160;
+        incremento = 150;
         largura = 210;
         altura = 110;
 
@@ -229,10 +229,10 @@ function receiveOsc(address, value) {
         cohesionSlider = 1;
         separationSlider = 1;
         skMaxForce = 1;
-        skMaxSpeed = 2;
+        skMaxSpeed = 4;
 
         break;
-      case 3:
+      case 3: // can
         console.log("Três");
         vid.pause();
         vid.hide();
@@ -259,10 +259,10 @@ function receiveOsc(address, value) {
         cohesionSlider = 1;
         separationSlider = 1;
         skMaxForce = 1;
-        skMaxSpeed = 2;
+        skMaxSpeed = 4;
 
         break;
-      case 4:
+      case 4: //plastic
         console.log("Quatro");
         vid.pause();
         vid.hide();
@@ -289,25 +289,25 @@ function receiveOsc(address, value) {
         cohesionSlider = 1;
         separationSlider = 1;
         skMaxForce = 1;
-        skMaxSpeed = 2;
+        skMaxSpeed = 4;
 
         break;
       case 5:
-        console.log("Cinco");
+        console.log("Cinco"); //styrofoam
         vid.pause();
         vid.hide();
 
         settingAtivo = 5;
 
         // Duração da imagem
-        duracaoT = 9999999999999999999;
+        duracaoT = 666666;
 
         // Imagens a Usar
         image(styrofoam[Math.floor(Math.random() * styrofoam.length)], 0, 0);
         imagemFim = styrofoamEnd;
 
         //Dados de baralhamento
-        incremento = 1;
+        incremento = 2;
         largura = 100;
         altura = 25;
 
@@ -319,7 +319,7 @@ function receiveOsc(address, value) {
         cohesionSlider = 1;
         separationSlider = 1;
         skMaxForce = 1;
-        skMaxSpeed = 2;
+        skMaxSpeed = 4;
 
         break;
       default:
